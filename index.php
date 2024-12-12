@@ -1,18 +1,14 @@
 <!-- http://localhost/shin_keijiban/ -->
 <!-- http://localhost/phpmyadmin/ -->
-<!-- 
-ポート3306の使用確認
-% lsof -i :3306
-  -->
+
   <?php
 ini_set('display_errors', "On");
 $comment_array = array();
 $dbh = null;
 $stmt = null;
 
-
 // input DB
-if(!empty($_POST["submitButton"])){
+if(isset($_POST["submitButton"])){
   if(empty($_POST["username"]) or empty($_POST["comment"])){
     echo "名前またはコメントが空です。";
   } else {
@@ -26,7 +22,10 @@ if(!empty($_POST["submitButton"])){
       
       $stmt->execute();
       $dbh = null;
-      
+
+      // フォーム送信後リダイレクト
+      header("Location: " . $_SERVER['PHP_SELF']);
+      exit;
     } catch (PDOException $e) {
       echo $e->getMessage();
     };
@@ -35,7 +34,6 @@ if(!empty($_POST["submitButton"])){
 
 // delete
 if(!empty($_POST["deleteButton"])){
-  
   try {
     $id = $_POST["id"];
     $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
@@ -43,6 +41,9 @@ if(!empty($_POST["deleteButton"])){
     $stmt->bindParam(':id', $id, PDO::PARAM_STR);
     $stmt->execute();
     $dbh = null;
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
   } catch (PDOException $e) {
     echo $e->getMessage();
   }
