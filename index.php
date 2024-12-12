@@ -13,26 +13,25 @@ $stmt = null;
 
 // input DB
 if(!empty($_POST["submitButton"])){
-  echo $_POST["submitButton"];
-
-  if(empty($_POST["username"])){
-    echo "usernameが空です。";
-  }
-  try {
-    $postDate = date("Y-m-d H:i:s");
-    $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
-    $stmt = $dbh->prepare("INSERT INTO `keijiban` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate)");
-    $stmt->bindParam(':username', htmlentities($_POST["username"]));
-    $stmt->bindParam(':comment', nl2br(htmlspecialchars($_POST["comment"], ENT_QUOTES, 'utf-8')), PDO::PARAM_STR);
-    $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
-    
-    $stmt->execute();
-    $dbh = null;
-    
-  } catch (PDOException $e) {
-    echo $e->getMessage();
-  }
-}
+  if(empty($_POST["username"]) or empty($_POST["comment"])){
+    echo "名前またはコメントが空です。";
+  } else {
+    try {
+      $postDate = date("Y-m-d H:i:s");
+      $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
+      $stmt = $dbh->prepare("INSERT INTO `keijiban` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate)");
+      $stmt->bindParam(':username', htmlentities($_POST["username"]));
+      $stmt->bindParam(':comment', nl2br(htmlspecialchars($_POST["comment"], ENT_QUOTES, 'utf-8')), PDO::PARAM_STR);
+      $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
+      
+      $stmt->execute();
+      $dbh = null;
+      
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+    };
+  };
+};
 
 // delete
 if(!empty($_POST["deleteButton"])){
