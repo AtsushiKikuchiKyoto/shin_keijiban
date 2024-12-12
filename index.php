@@ -22,11 +22,12 @@ if(!empty($_POST["submitButton"])){
     $postDate = date("Y-m-d H:i:s");
     $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
     $stmt = $dbh->prepare("INSERT INTO `keijiban` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate)");
-    $stmt->bindParam(':username', htmlentities($_POST["username"]), PDO::PARAM_STR);
-    $stmt->bindParam(':comment', htmlspecialchars($_POST["comment"]), PDO::PARAM_STR);
+    $stmt->bindParam(':username', htmlentities($_POST["username"]));
+    $stmt->bindParam(':comment', nl2br(htmlspecialchars($_POST["comment"], ENT_QUOTES, 'utf-8')), PDO::PARAM_STR);
     $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
     
     $stmt->execute();
+    $dbh = null;
     
   } catch (PDOException $e) {
     echo $e->getMessage();
@@ -38,8 +39,6 @@ if(!empty($_POST["deleteButton"])){
   
   try {
     $id = $_POST["id"];
-    echo $id;
-    
     $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
     $stmt = $dbh->prepare("DELETE FROM `keijiban` WHERE id=:id");
     $stmt->bindParam(':id', $id, PDO::PARAM_STR);
