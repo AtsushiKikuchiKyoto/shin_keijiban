@@ -50,7 +50,7 @@ if(!empty($_POST["deleteButton"])){
 // output DB
 try {
   $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
-  $sql = "SELECT * FROM keijiban ";
+  $sql = "SELECT * FROM keijiban ORDER BY id DESC";
   $comment_array = $dbh->query($sql);
   $dbh = null;
 } catch (PDOException $e) {
