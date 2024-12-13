@@ -4,6 +4,6 @@
 <?php
 
 include 'commentController.php';
-include 'topic.php';
+include 'topicController.php';
 include 'pageTop.php';
 ?>
