@@ -10,6 +10,14 @@
   <h1 class="title">PHPで掲示板アプリ</h1>
   <hr>
 
+  <form class="boardWrapper" method="POST">
+    <input type="submit" value="立てる" name="topicButton">
+    <label for="usernameLabel">トピック：</label>
+    <input type="text" name="topic" class="input-topic">
+    <label for="usernameLabel">名前：</label>
+    <input type="text" name="username">
+  </form>
+
   <?php foreach ($topics as $topic) : ?>
 
     <div class="boardWrapper">
