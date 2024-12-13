@@ -36,7 +36,7 @@
 
       <section>
         <?php foreach ($comment_array as $comment) : ?>
-        
+        <?php if ($topic["id"] == $comment["topic_id"]) :?>
           <article>
             <div class="wrapper">
               <div class="nameArea">
@@ -51,7 +51,7 @@
               </form>
             </div>
           </article>
-
+        <?php endif ?>
         <?php endforeach; ?>
       </section>
     </div>
