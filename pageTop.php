@@ -28,6 +28,10 @@
           <p class="topic-name">名前：<?php echo $topic["username"] ?></p>
           <p class="topic-date">立てた日：<?php echo $topic["postDate"] ?></p>
         </div>
+        <form method="post">
+          <input type="hidden" name="id" value="<?php echo $topic["id"] ?>">
+          <input type="submit"  name="deleteTopic" value="トピック削除">
+        </form>
       </div>
 
       <form class="formWrapper" method="POST">

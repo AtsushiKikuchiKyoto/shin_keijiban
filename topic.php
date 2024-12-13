@@ -30,6 +30,26 @@ if(isset($_POST["topicButton"])){
   };
 };
 
+// Topic削除とコメントも削除
+if(isset($_POST["deleteTopic"])){
+  try {
+    $id = $_POST["id"];
+    $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
+    $stmt = $dbh->prepare("DELETE FROM `topic` WHERE id=:id");
+    $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+    $stmt->execute();
+    $stmt = $dbh->prepare("DELETE FROM `keijiban` WHERE topic_id=:id");
+    $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+    $stmt->execute();
+    $dbh = null;
+
+    header("Location: " . $_SERVER['PHP_SELF']);
+    exit;
+  } catch (PDOException $e) {
+    echo $e->getMessage();
+  }
+}
+
 // DB出力
 try{
   $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
