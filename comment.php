@@ -22,35 +22,39 @@ class Comment {
     }
   }
 
-  public function postComment(){
+  public function postComment($username, $comment, $topic_id) {
     try {
       $postDate = date("Y-m-d H:i:s");
       $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
       $stmt = $dbh->prepare("INSERT INTO `keijiban` (`username`, `comment`, `postDate`, `topic_id`) VALUES (:username, :comment, :postDate, :topic_id)");
-      $stmt->bindParam(':username', htmlentities($_POST["username"]));
-      $stmt->bindParam(':comment', nl2br(htmlspecialchars($_POST["comment"], ENT_QUOTES, 'utf-8')), PDO::PARAM_STR);
+      $stmt->bindParam(':username', htmlentities($username));
+      $stmt->bindParam(':comment', nl2br(htmlspecialchars($comment, ENT_QUOTES, 'utf-8')), PDO::PARAM_STR);
       $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
-      $stmt->bindParam(':topic_id', $_POST["topic_id"], PDO::PARAM_INT);
+      $stmt->bindParam(':topic_id', $topic_id, PDO::PARAM_INT);
       
       $stmt->execute();
-      $dbh = null;
-
-      // フォーム送信後リダイレクト
-      header("Location: " . $_SERVER['PHP_SELF']);
-      exit;
+      return true;
     } catch (PDOException $e) {
-      echo $e->getMessage();
-    };
+      error_log("Database error: " . $e->getMessage());
+      return false;
+    }
   }
 }
 
 // input DB
 if(isset($_POST["submitButton"])){
-  if(empty($_POST["username"]) or empty($_POST["comment"])){
+  if (empty($_POST["username"]) || empty($_POST["comment"])){
     echo "名前またはコメントが空です。";
   } else {
     $comment = new Comment();
-    $comment->postComment();
+    $postAction = $comment->postComment($_POST["username"], $_POST["comment"], $_POST["topic_id"]) 
+    if ($postAction) {
+      // フォーム送信後リダイレクト
+      header("Location: " . $_SERVER['PHP_SELF']);
+      exit;
+    } else {
+      echo "コメントを投稿できませんでした。";
+    }
   };
 };
 
