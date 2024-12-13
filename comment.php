@@ -2,7 +2,7 @@
 
 date_default_timezone_set('Asia/Tokyo');
 ini_set('display_errors', "On");
-$comment_array = array();
+$comments = array();
 $dbh = null;
 $stmt = null;
 
@@ -12,8 +12,8 @@ class Comment {
       $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
       $sql = "SELECT * FROM keijiban ORDER BY id DESC";
       $stmt = $dbh->query($sql);
-      $comment_array = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      return $comment_array;
+      $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $comments;
     } catch (PDOException $e) {
       echo $e->getMessage();
       return [];
@@ -68,5 +68,5 @@ if(!empty($_POST["deleteButton"])){
 
 // output DB
   $comment = new Comment();
-  $comment_array = $comment->getCommentAll();
+  $comments = $comment->getCommentAll();
 ?>

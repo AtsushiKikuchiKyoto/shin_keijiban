@@ -47,7 +47,7 @@
       </form>
 
       <section>
-        <?php foreach ($comment_array as $comment) : ?>
+        <?php foreach ($comments as $comment) : ?>
         <?php if ($topic["id"] == $comment["topic_id"]) :?>
           <article>
             <div class="wrapper">
