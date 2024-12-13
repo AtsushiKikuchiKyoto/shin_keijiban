@@ -3,7 +3,7 @@
 
 <?php
 
-include 'topic.php';
 include 'db.php';
+include 'topic.php';
 include 'pageTop.php';
 ?>

@@ -9,13 +9,16 @@
 <body>
   <h1 class="title">PHPで掲示板アプリ</h1>
   <hr>
+
+  <?php foreach ($topics as $topic) : ?>
+
   <div class="boardWrapper">
 
     <div class="topic-wrapper">
-      <p class="topic-title">トピック：ダミートピック</p>
+      <p class="topic-title">トピック：<?php echo $topic["topic"] ?></p>
       <div>
-        <p class="topic-name">名前：ダミーネーム</p>
-        <p class="topic-date">立てた日：2024-12-12 15:30:23</p>
+        <p class="topic-name">名前：<?php echo $topic["username"] ?></p>
+        <p class="topic-date">立てた日：<?php echo $topic["postDate"] ?></p>
       </div>
     </div>
 
@@ -49,5 +52,8 @@
       <?php endforeach; ?>
     </section>
   </div>
+
+  <?php endforeach; ?>
+
 </body>
 </html>
