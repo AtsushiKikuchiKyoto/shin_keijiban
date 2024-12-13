@@ -21,13 +21,8 @@ class Comment {
       $dbh = null;
     }
   }
-}
 
-// input DB
-if(isset($_POST["submitButton"])){
-  if(empty($_POST["username"]) or empty($_POST["comment"])){
-    echo "名前またはコメントが空です。";
-  } else {
+  public function postComment(){
     try {
       $postDate = date("Y-m-d H:i:s");
       $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
@@ -46,6 +41,16 @@ if(isset($_POST["submitButton"])){
     } catch (PDOException $e) {
       echo $e->getMessage();
     };
+  }
+}
+
+// input DB
+if(isset($_POST["submitButton"])){
+  if(empty($_POST["username"]) or empty($_POST["comment"])){
+    echo "名前またはコメントが空です。";
+  } else {
+    $comment = new Comment();
+    $comment->postComment();
   };
 };
 
