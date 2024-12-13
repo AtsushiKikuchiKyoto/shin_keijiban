@@ -1,5 +1,5 @@
 <?php
-include 'commentModel.php';
+include 'Model/commentModel.php';
 
 date_default_timezone_set('Asia/Tokyo');
 ini_set('display_errors', "On");
