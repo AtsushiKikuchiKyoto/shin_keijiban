@@ -6,6 +6,23 @@ $comment_array = array();
 $dbh = null;
 $stmt = null;
 
+class Comment {
+  public function getCommentAll(){
+    try {
+      $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
+      $sql = "SELECT * FROM keijiban ORDER BY id DESC";
+      $stmt = $dbh->query($sql);
+      $comment_array = $stmt->fetchAll(PDO::FETCH_ASSOC);
+      return $comment_array;
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+      return [];
+    } finally {
+      $dbh = null;
+    }
+  }
+}
+
 // input DB
 if(isset($_POST["submitButton"])){
   if(empty($_POST["username"]) or empty($_POST["comment"])){
@@ -50,13 +67,6 @@ if(!empty($_POST["deleteButton"])){
 }
 
 // output DB
-try {
-  $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
-  $sql = "SELECT * FROM keijiban ORDER BY id DESC";
-  $stmt = $dbh->query($sql);
-  $comment_array = $stmt->fetchAll(PDO::FETCH_ASSOC);
-  $dbh = null;
-} catch (PDOException $e) {
-  echo $e->getMessage();
-}
+  $comment = new Comment();
+  $comment_array = $comment->getCommentAll();
 ?>
