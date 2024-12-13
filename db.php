@@ -14,10 +14,11 @@ if(isset($_POST["submitButton"])){
     try {
       $postDate = date("Y-m-d H:i:s");
       $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
-      $stmt = $dbh->prepare("INSERT INTO `keijiban` (`username`, `comment`, `postDate`) VALUES (:username, :comment, :postDate)");
+      $stmt = $dbh->prepare("INSERT INTO `keijiban` (`username`, `comment`, `postDate`, `topic_id`) VALUES (:username, :comment, :postDate, :topic_id)");
       $stmt->bindParam(':username', htmlentities($_POST["username"]));
       $stmt->bindParam(':comment', nl2br(htmlspecialchars($_POST["comment"], ENT_QUOTES, 'utf-8')), PDO::PARAM_STR);
       $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
+      $stmt->bindParam(':topic_id', $_POST["topic_id"], PDO::PARAM_INT);
       
       $stmt->execute();
       $dbh = null;

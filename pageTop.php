@@ -27,6 +27,7 @@
         <input type="submit" value="書き込む" name="submitButton">
         <label for="usernameLabel">名前：</label>
         <input type="text" name="username">
+        <input type="hidden" name="topic_id" value="<?php echo $topic["id"] ?>">
       </div>
       <div>
         <textarea class="commentTextArea" name="comment"></textarea>
