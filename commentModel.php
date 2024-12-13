@@ -1,11 +1,4 @@
 <?php
-
-date_default_timezone_set('Asia/Tokyo');
-ini_set('display_errors', "On");
-$comments = array();
-$dbh = null;
-$stmt = null;
-
 class Comment {
   public function getCommentAll(){
     try {
@@ -39,43 +32,19 @@ class Comment {
       return false;
     }
   }
-}
 
-// input DB
-if(isset($_POST["submitButton"])){
-  if (empty($_POST["username"]) || empty($_POST["comment"])){
-    echo "名前またはコメントが空です。";
-  } else {
-    $comment = new Comment();
-    $postAction = $comment->postComment($_POST["username"], $_POST["comment"], $_POST["topic_id"]) 
-    if ($postAction) {
-      // フォーム送信後リダイレクト
-      header("Location: " . $_SERVER['PHP_SELF']);
-      exit;
-    } else {
-      echo "コメントを投稿できませんでした。";
+  public function deleteComment($id) {
+    try {
+      $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
+      $stmt = $dbh->prepare("DELETE FROM `keijiban` WHERE id=:id");
+      $stmt->bindParam(':id', $id, PDO::PARAM_STR);
+      $stmt->execute();
+      $dbh = null;
+      return true;
+    } catch (PDOException $e) {
+      echo $e->getMessage();
+      return false;
     }
-  };
-};
-
-// delete
-if(!empty($_POST["deleteButton"])){
-  try {
-    $id = $_POST["id"];
-    $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
-    $stmt = $dbh->prepare("DELETE FROM `keijiban` WHERE id=:id");
-    $stmt->bindParam(':id', $id, PDO::PARAM_STR);
-    $stmt->execute();
-    $dbh = null;
-
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
-  } catch (PDOException $e) {
-    echo $e->getMessage();
   }
 }
-
-// output DB
-  $comment = new Comment();
-  $comments = $comment->getCommentAll();
 ?>

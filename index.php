@@ -3,7 +3,7 @@
 
 <?php
 
-include 'comment.php';
+include 'commentController.php';
 include 'topic.php';
 include 'pageTop.php';
 ?>
