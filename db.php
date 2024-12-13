@@ -1,5 +1,7 @@
 <!-- http://localhost/shin_keijiban/db.php -->
 <?php
+include 'topic.php';
+
 date_default_timezone_set('Asia/Tokyo');
 ini_set('display_errors', "On");
 $comment_array = array();

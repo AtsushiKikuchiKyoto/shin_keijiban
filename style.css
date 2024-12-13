@@ -8,13 +8,20 @@ body {
 }
 
 .boardWrapper {
-  /* background-color: #b3eeb3; */
   background-color: #f3eded;
   padding: 20px;
   max-width: 1000px;
   margin: 0 auto;
   border: 1px solid black;
   margin-bottom: 20px;
+}
+.topic-wrapper{
+  border: solid 1px black;
+  display: flex;
+}
+.topic-title{
+  font-size: 24px;
+  margin: 30px 20px;
 }
 
 section {

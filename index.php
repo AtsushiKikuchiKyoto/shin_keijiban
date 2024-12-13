@@ -13,6 +13,15 @@
   <h1 class="title">PHPで掲示板アプリ</h1>
   <hr>
   <div class="boardWrapper">
+
+    <div class="topic-wrapper">
+      <p class="topic-title">トピック：ダミートピック</p>
+      <div>
+        <p class="topic-name">名前：ダミーネーム</p>
+        <p class="topic-date">立てた日：2024-12-12 15:30:23</p>
+      </div>
+    </div>
+
     <form class="formWrapper" method="POST">
       <div>
         <input type="submit" value="書き込む" name="submitButton">
@@ -23,6 +32,7 @@
         <textarea class="commentTextArea" name="comment"></textarea>
       </div>
     </form>
+
     <section>
       <?php foreach ($comment_array as $comment) : ?>
       <article>
