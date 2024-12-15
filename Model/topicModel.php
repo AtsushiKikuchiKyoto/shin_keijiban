@@ -20,7 +20,7 @@ class Topic {
   function postTopic($username, $topic) {
     try {
       $postDate = date("Y-m-d H:i:s");
-      $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
+      $dbh = DbConnection::getInstance();
       $stmt = $dbh->prepare("INSERT INTO `topic` (`username`, `topic`, `postDate`) VALUES (:username, :topic, :postDate)");
       $stmt->bindParam(':username', htmlentities($username));
       $stmt->bindParam(':topic', htmlspecialchars($topic, ENT_QUOTES, 'utf-8'), PDO::PARAM_STR);
@@ -36,7 +36,7 @@ class Topic {
 
   function deleteTopic($id) {
     try {
-      $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
+      $dbh = DbConnection::getInstance();
       $stmt = $dbh->prepare("DELETE FROM `topic` WHERE id=:id");
       $stmt->bindParam(':id', $id, PDO::PARAM_STR);
       $stmt->execute();
