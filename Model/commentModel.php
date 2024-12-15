@@ -21,12 +21,14 @@ class Comment {
   public function postComment($username, $comment, $topic_id) {
     try {
       $postDate = date("Y-m-d H:i:s");
+      $usernameParam = htmlentities($username);
+      $commentParam = nl2br(htmlspecialchars($comment, ENT_QUOTES, 'utf-8'));
       $dbh = DbConnection::getInstance();
       $sql = "INSERT INTO keijiban (username, comment, postDate, topic_id) 
               VALUES (:username, :comment, :postDate, :topic_id)";
       $stmt = $dbh->prepare($sql);
-      $stmt->bindParam(':username', htmlentities($username));
-      $stmt->bindParam(':comment', nl2br(htmlspecialchars($comment, ENT_QUOTES, 'utf-8')), PDO::PARAM_STR);
+      $stmt->bindParam(':username', $usernameParam);
+      $stmt->bindParam(':comment', $commentParam, PDO::PARAM_STR);
       $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
       $stmt->bindParam(':topic_id', $topic_id, PDO::PARAM_INT);
       
