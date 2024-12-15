@@ -5,7 +5,8 @@ class Topic {
   function getTopicAll() {
     try {
       $dbh = DbConnection::getInstance();
-      $sql = "SELECT * FROM topic ORDER BY id DESC";
+      $sql = "SELECT * FROM topic 
+              ORDER BY id DESC";
       $stmt = $dbh->query($sql);
       $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
       return $topics;
@@ -21,7 +22,9 @@ class Topic {
     try {
       $postDate = date("Y-m-d H:i:s");
       $dbh = DbConnection::getInstance();
-      $stmt = $dbh->prepare("INSERT INTO `topic` (`username`, `topic`, `postDate`) VALUES (:username, :topic, :postDate)");
+      $sql = "INSERT INTO topic (username, topic, postDate) 
+              VALUES (:username, :topic, :postDate)";
+      $stmt = $dbh->prepare($sql);
       $stmt->bindParam(':username', htmlentities($username));
       $stmt->bindParam(':topic', htmlspecialchars($topic, ENT_QUOTES, 'utf-8'), PDO::PARAM_STR);
       $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
@@ -37,10 +40,14 @@ class Topic {
   function deleteTopic($id) {
     try {
       $dbh = DbConnection::getInstance();
-      $stmt = $dbh->prepare("DELETE FROM `topic` WHERE id=:id");
+      $sql = "DELETE FROM topic 
+              WHERE id=:id";
+      $stmt = $dbh->prepare($sql);
       $stmt->bindParam(':id', $id, PDO::PARAM_STR);
       $stmt->execute();
-      $stmt = $dbh->prepare("DELETE FROM `keijiban` WHERE topic_id=:id");
+      $sql = "DELETE FROM keijiban 
+              WHERE topic_id=:id";
+      $stmt = $dbh->prepare($sql);
       $stmt->bindParam(':id', $id, PDO::PARAM_STR);
       $stmt->execute();
       $dbh = null;

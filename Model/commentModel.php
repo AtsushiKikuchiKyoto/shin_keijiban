@@ -5,7 +5,8 @@ class Comment {
   public function getCommentAll(){
     try {
       $dbh = DbConnection::getInstance();
-      $sql = "SELECT * FROM keijiban ORDER BY id DESC";
+      $sql = "SELECT * FROM keijiban 
+              ORDER BY id DESC";
       $stmt = $dbh->query($sql);
       $comments = $stmt->fetchAll(PDO::FETCH_ASSOC);
       return $comments;
@@ -21,7 +22,9 @@ class Comment {
     try {
       $postDate = date("Y-m-d H:i:s");
       $dbh = DbConnection::getInstance();
-      $stmt = $dbh->prepare("INSERT INTO `keijiban` (`username`, `comment`, `postDate`, `topic_id`) VALUES (:username, :comment, :postDate, :topic_id)");
+      $sql = "INSERT INTO keijiban (username, comment, postDate, topic_id) 
+              VALUES (:username, :comment, :postDate, :topic_id)";
+      $stmt = $dbh->prepare($sql);
       $stmt->bindParam(':username', htmlentities($username));
       $stmt->bindParam(':comment', nl2br(htmlspecialchars($comment, ENT_QUOTES, 'utf-8')), PDO::PARAM_STR);
       $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
@@ -38,7 +41,8 @@ class Comment {
   public function deleteComment($id) {
     try {
       $dbh = DbConnection::getInstance();
-      $stmt = $dbh->prepare("DELETE FROM `keijiban` WHERE id=:id");
+      $sql = "DELETE FROM keijiban WHERE id=:id";
+      $stmt = $dbh->prepare($sql);
       $stmt->bindParam(':id', $id, PDO::PARAM_STR);
       $stmt->execute();
       $dbh = null;
