@@ -21,12 +21,14 @@ class Topic {
   function postTopic($username, $topic) {
     try {
       $postDate = date("Y-m-d H:i:s");
+      $usernameParam = htmlentities($username);
+      $topicParam = htmlspecialchars($topic, ENT_QUOTES, 'utf-8');
       $dbh = DbConnection::getInstance();
       $sql = "INSERT INTO topic (username, topic, postDate) 
               VALUES (:username, :topic, :postDate)";
       $stmt = $dbh->prepare($sql);
-      $stmt->bindParam(':username', htmlentities($username));
-      $stmt->bindParam(':topic', htmlspecialchars($topic, ENT_QUOTES, 'utf-8'), PDO::PARAM_STR);
+      $stmt->bindParam(':username', $usernameParam);
+      $stmt->bindParam(':topic', $topicParam, PDO::PARAM_STR);
       $stmt->bindParam(':postDate', $postDate, PDO::PARAM_STR);
       $stmt->execute();
       $dbh = null;
