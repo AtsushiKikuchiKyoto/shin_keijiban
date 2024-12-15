@@ -1,8 +1,10 @@
 <?php
+require_once 'DB.php';
+
 class Topic {
   function getTopicAll() {
     try {
-      $dbh = new PDO('mysql:host=localhost;dbname=shin_keijiban', "root", "");
+      $dbh = DbConnection::getInstance();
       $sql = "SELECT * FROM topic ORDER BY id DESC";
       $stmt = $dbh->query($sql);
       $topics = $stmt->fetchAll(PDO::FETCH_ASSOC);
